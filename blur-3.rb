@@ -1,4 +1,3 @@
-
 class Image 
   def initialize(imageArray)
     @picture = imageArray;
@@ -18,20 +17,25 @@ def get_ones
 return ones
 end
 
-def test
+
+
+def manhattan_distance(x1, y1, x2, y2)
+  horizontal_distance = (x2 -x1).abs
+  vertical_distance  = (y2 -y1).abs
+
+  return horizontal_distance + vertical_distance
+end
+
+
+def getDistance(distance)
   ones = get_ones
+
    @picture.each_with_index do |row, row_number|
      row.each_with_index do |item, col_number|
         ones.each do |found_one, found_index|
-
-          if(row_number == found_one && col_number == found_index)
-
-              @picture[row_number -1][col_number] = 1 unless row_number == 0 #up
-              @picture[row_number +1][col_number] = 1 unless row_number >= 3 #down
-              @picture[row_number][col_number -1] = 1 unless col_number == 0 #left
-              @picture[row_number][col_number +1] = 1 unless col_number >= 3 #right
-            
-            end
+          if manhattan_distance(col_number, row_number, found_index, found_one) <= distance
+            @picture[row_number][col_number] = 1
+          end
           end
      end
    end
@@ -42,21 +46,26 @@ end
       puts img.join
     end
   end
+
 end
+
 
 myImage = Image.new(
         [
-          [0,0,0,0],
-          [0,1,0,0],
-          [0,0,0,1],
-          [0,0,0,0],
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+          [0, 1, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 1]
         ]
       )
 
+#orginal image
 myImage.output_image
-
 puts 
 
-myImage.test
 
+myImage.getDistance(1)
 myImage.output_image 
